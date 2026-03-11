@@ -65,4 +65,4 @@ This is a conceptual reconstruction for learning and visualization. It is not a 
 
 ## License
 
-MIT
+This repository's source code is licensed under the MIT License.
