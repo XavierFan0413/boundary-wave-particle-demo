@@ -135,6 +135,7 @@
     }
 
     .controls {
+      --controls-peek-height: 56px;
       position: fixed;
       left: 12px;
       right: 12px;
@@ -146,12 +147,15 @@
       padding: 12px 14px 14px 14px;
       backdrop-filter: blur(12px);
       box-shadow: 0 12px 36px rgba(0, 0, 0, 0.30);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
       transition: transform 220ms ease;
       will-change: transform;
     }
 
     .controls.collapsed {
-      transform: translateY(calc(100% - 54px));
+      transform: translateY(calc(100% - var(--controls-peek-height)));
     }
 
     .controls-header {
@@ -175,17 +179,21 @@
 
     .controls-content {
       margin-top: 12px;
-      max-height: 1000px;
-      overflow: hidden;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
       opacity: 1;
-      transition: opacity 180ms ease, max-height 180ms ease, margin-top 180ms ease;
+      transition: opacity 180ms ease, margin-top 180ms ease;
     }
 
     .controls.collapsed .controls-content {
       opacity: 0;
-      max-height: 0;
       margin-top: 0;
       pointer-events: none;
+      overflow: hidden;
     }
 
     .button-row {
@@ -283,9 +291,67 @@
       }
     }
 
+    @media (max-width: 900px), (max-height: 820px) {
+      .controls {
+        left: 10px;
+        right: 10px;
+        bottom: max(8px, env(safe-area-inset-bottom));
+        padding: 10px 12px calc(10px + env(safe-area-inset-bottom)) 12px;
+        max-height: min(62vh, calc(100vh - max(88px, env(safe-area-inset-top)) - 8px - env(safe-area-inset-bottom)));
+        max-height: min(62dvh, calc(100dvh - max(88px, env(safe-area-inset-top)) - 8px - env(safe-area-inset-bottom)));
+      }
+
+      .controls-header {
+        min-height: 38px;
+      }
+
+      .controls-content {
+        margin-top: 10px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .button-row {
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      button {
+        padding: 10px 10px;
+      }
+
+      .toggle-btn {
+        padding: 8px 11px;
+      }
+
+      .grid {
+        gap: 8px 10px;
+      }
+
+      .control label {
+        margin-bottom: 4px;
+      }
+    }
+
     @media (max-width: 520px) {
       .button-row {
         flex-direction: column;
+      }
+
+      .controls {
+        max-height: min(58vh, calc(100vh - max(84px, env(safe-area-inset-top)) - 8px - env(safe-area-inset-bottom)));
+        max-height: min(58dvh, calc(100dvh - max(84px, env(safe-area-inset-top)) - 8px - env(safe-area-inset-bottom)));
+      }
+
+      button {
+        font-size: 13px;
+      }
+    }
+
+    @media (max-height: 640px) {
+      .controls {
+        max-height: min(55vh, calc(100vh - max(74px, env(safe-area-inset-top)) - 8px - env(safe-area-inset-bottom)));
+        max-height: min(55dvh, calc(100dvh - max(74px, env(safe-area-inset-top)) - 8px - env(safe-area-inset-bottom)));
       }
     }
   </style>
