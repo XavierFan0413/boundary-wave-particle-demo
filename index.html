@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Boundary Between Wave and Particle</title>
+  <title>境符「波と粒の境界」</title>
   <style>
     :root {
       --bg: #0e0b14;
@@ -13,7 +13,6 @@
       --muted: #c9b7e9;
       --accent: #d8a8ff;
       --accent-2: #9ecbff;
-      --tooltip-bg: rgba(18, 14, 28, 0.96);
     }
 
     * {
@@ -39,6 +38,7 @@
       display: block;
       width: 100%;
       height: 100%;
+      touch-action: none;
     }
 
     .topbar {
@@ -53,10 +53,9 @@
       pointer-events: none;
     }
 
-    .title,
     .stats,
-    .lang-wrap {
-      background: var(--panel);
+    .top-actions {
+      background: rgba(26, 20, 38, 0.78);
       border: 1px solid var(--panel-border);
       border-radius: 16px;
       padding: 10px 12px;
@@ -67,16 +66,21 @@
 
     .title {
       max-width: 60%;
+      padding: 0;
+      background: none;
+      border: 0;
+      border-radius: 0;
+      backdrop-filter: none;
+      box-shadow: none;
     }
 
     .title h1 {
-      margin: 0 0 4px 0;
+      margin: 0;
       font-size: 15px;
       font-weight: 700;
       letter-spacing: 0.2px;
     }
 
-    .title p,
     .stats {
       margin: 0;
       font-size: 12px;
@@ -94,24 +98,40 @@
 
     .stats {
       text-align: right;
-      min-width: 125px;
-      white-space: pre-line;
+      min-width: 96px;
+      white-space: nowrap;
     }
 
-    .lang-wrap {
-      padding: 8px 10px;
+    .top-actions {
+      display: flex;
+      gap: 8px;
+      padding: 6px;
     }
 
-    .lang-btn {
+    .lang-btn,
+    .play-btn {
       border: none;
       border-radius: 12px;
-      padding: 8px 12px;
+      padding: 7px 10px;
       font-size: 12px;
       font-weight: 700;
       color: var(--text);
-      background: linear-gradient(180deg, rgba(220, 170, 255, 0.30), rgba(120, 90, 180, 0.30));
+      background: linear-gradient(180deg, rgba(220, 170, 255, 0.22), rgba(120, 90, 180, 0.22));
       border: 1px solid rgba(220, 170, 255, 0.18);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .lang-btn {
+      min-width: 42px;
+    }
+
+    .play-btn {
+      min-width: 56px;
+    }
+
+    .play-btn.active {
+      background: linear-gradient(180deg, rgba(160, 232, 255, 0.32), rgba(110, 160, 255, 0.26));
+      border-color: rgba(160, 220, 255, 0.38);
     }
 
     .controls {
@@ -120,7 +140,7 @@
       right: 12px;
       bottom: max(12px, env(safe-area-inset-bottom));
       z-index: 20;
-      background: var(--panel);
+      background: rgba(26, 20, 38, 0.74);
       border: 1px solid var(--panel-border);
       border-radius: 20px;
       padding: 12px 14px 14px 14px;
@@ -147,12 +167,6 @@
       font-weight: 700;
       color: var(--text);
       letter-spacing: 0.2px;
-    }
-
-    .controls-subtitle {
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 2px;
     }
 
     .controls-head-left {
@@ -187,7 +201,7 @@
       padding: 12px 10px;
       font-size: 14px;
       font-weight: 700;
-      background: linear-gradient(180deg, rgba(220, 170, 255, 0.35), rgba(120, 90, 180, 0.35));
+      background: linear-gradient(180deg, rgba(220, 170, 255, 0.24), rgba(120, 90, 180, 0.24));
       color: var(--text);
       border: 1px solid rgba(220, 170, 255, 0.18);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -202,7 +216,7 @@
       padding: 9px 12px;
       font-size: 12px;
       border-radius: 12px;
-      background: linear-gradient(180deg, rgba(200, 160, 255, 0.24), rgba(90, 72, 135, 0.28));
+      background: linear-gradient(180deg, rgba(200, 160, 255, 0.17), rgba(90, 72, 135, 0.21));
     }
 
     button:active {
@@ -247,60 +261,6 @@
       accent-color: var(--accent);
     }
 
-    .hint {
-      margin-top: 10px;
-      font-size: 11px;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .info-wrap {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    .info-btn {
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      padding: 0;
-      font-size: 11px;
-      line-height: 18px;
-      text-align: center;
-      font-weight: 700;
-      background: rgba(170, 140, 240, 0.25);
-      border: 1px solid rgba(220, 170, 255, 0.22);
-      color: var(--text);
-      cursor: pointer;
-    }
-
-    .tooltip {
-      position: absolute;
-      left: 50%;
-      bottom: calc(100% + 8px);
-      transform: translateX(-50%);
-      width: min(240px, 70vw);
-      padding: 8px 10px;
-      border-radius: 12px;
-      background: var(--tooltip-bg);
-      border: 1px solid rgba(220, 170, 255, 0.18);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
-      color: var(--text);
-      font-size: 11px;
-      line-height: 1.35;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 120ms ease;
-      z-index: 40;
-      text-align: left;
-    }
-
-    .info-wrap:hover .tooltip,
-    .info-wrap:focus-within .tooltip {
-      opacity: 1;
-    }
-
     @media (max-width: 720px) {
       .topbar {
         flex-direction: column;
@@ -336,13 +296,13 @@
 
     <div class="topbar">
       <div class="title">
-        <h1 id="titleText">Boundary Between Wave and Particle</h1>
-        <p id="subtitleText">A mobile-friendly interactive visualization inspired by Touhou-style bullet pattern design.</p>
+        <h1 id="titleText">境符「波と粒の境界」</h1>
       </div>
 
       <div class="right-col">
-        <div class="lang-wrap">
-          <button class="lang-btn" id="langBtn">中文</button>
+        <div class="top-actions">
+          <button class="lang-btn" id="langBtn">中</button>
+          <button class="play-btn" id="playBtn" type="button">Play</button>
         </div>
         <div class="stats" id="stats"></div>
       </div>
@@ -352,7 +312,6 @@
       <div class="controls-header">
         <div class="controls-head-left">
           <div class="controls-title" id="controlsTitle">Controls</div>
-          <div class="controls-subtitle" id="controlsSubtitle">Tweak the pattern in real time</div>
         </div>
         <button class="toggle-btn" id="toggleControlsBtn">Hide Controls</button>
       </div>
@@ -370,10 +329,6 @@
             <label>
               <span class="label-left">
                 <span id="waysLabel">ways</span>
-                <span class="info-wrap">
-                  <button class="info-btn" type="button">i</button>
-                  <span class="tooltip" id="waysTip"></span>
-                </span>
               </span>
               <span class="value" id="waysVal"></span>
             </label>
@@ -384,10 +339,6 @@
             <label>
               <span class="label-left">
                 <span id="alphaLabel">alpha</span>
-                <span class="info-wrap">
-                  <button class="info-btn" type="button">i</button>
-                  <span class="tooltip" id="alphaTip"></span>
-                </span>
               </span>
               <span class="value" id="alphaVal"></span>
             </label>
@@ -398,10 +349,6 @@
             <label>
               <span class="label-left">
                 <span id="emitLabel">emit</span>
-                <span class="info-wrap">
-                  <button class="info-btn" type="button">i</button>
-                  <span class="tooltip" id="emitTip"></span>
-                </span>
               </span>
               <span class="value" id="emitVal"></span>
             </label>
@@ -412,10 +359,6 @@
             <label>
               <span class="label-left">
                 <span id="bulletSpeedLabel">bullet speed</span>
-                <span class="info-wrap">
-                  <button class="info-btn" type="button">i</button>
-                  <span class="tooltip" id="bulletSpeedTip"></span>
-                </span>
               </span>
               <span class="value" id="bulletSpeedVal"></span>
             </label>
@@ -426,10 +369,6 @@
             <label>
               <span class="label-left">
                 <span id="spawnLabel">spawn</span>
-                <span class="info-wrap">
-                  <button class="info-btn" type="button">i</button>
-                  <span class="tooltip" id="spawnTip"></span>
-                </span>
               </span>
               <span class="value" id="spawnVal"></span>
             </label>
@@ -440,18 +379,12 @@
             <label>
               <span class="label-left">
                 <span id="lifetimeLabel">lifetime</span>
-                <span class="info-wrap">
-                  <button class="info-btn" type="button">i</button>
-                  <span class="tooltip" id="lifetimeTip"></span>
-                </span>
               </span>
               <span class="value" id="lifetimeVal"></span>
             </label>
             <input id="lifetime" type="range" min="80" max="420" step="5" value="220">
           </div>
         </div>
-
-        <div class="hint" id="hintText">Drag the sliders and watch discrete particles become wave-like.</div>
       </div>
     </div>
   </div>
@@ -459,10 +392,8 @@
   <script>
     const I18N = {
       en: {
-        title: "Boundary Between Wave and Particle",
-        subtitle: "A mobile-friendly interactive visualization inspired by Touhou-style bullet pattern design.",
+        title: "境符「波と粒の境界」",
         controlsTitle: "Controls",
-        controlsSubtitle: "Tweak the pattern in real time",
         hideControls: "Hide Controls",
         showControls: "Show Controls",
         pause: "Pause",
@@ -470,28 +401,19 @@
         reset: "Reset",
         dreamy: "Dreamy",
         calm: "Calm",
-        hint: "Drag the sliders and watch discrete particles become wave-like.",
-        ways: "ways",
-        alpha: "alpha",
-        emit: "emit",
-        bulletSpeed: "bullet speed",
-        spawn: "spawn",
+        ways: "streams",
+        alpha: "twist",
+        emit: "emit gap",
+        bulletSpeed: "speed",
+        spawn: "ring size",
         lifetime: "lifetime",
-        statsFrame: "frame",
         statsBullets: "bullets",
-        waysTip: "How many arms or streams are emitted at the same time. More ways usually make the pattern fuller.",
-        alphaTip: "How quickly the emission angle accelerates. Lower values feel calmer and more open. Higher values twist faster.",
-        emitTip: "How many frames between emissions. Lower values make the pattern denser.",
-        bulletSpeedTip: "How fast each bullet moves outward. Lower values make the motion gentler and easier to observe.",
-        spawnTip: "The radius of the emission ring around the center.",
-        lifetimeTip: "How long bullets stay on screen before disappearing.",
-        langButton: "中文"
+        langButton: "中",
+        playButton: "Play"
       },
       zh: {
-        title: "波与粒的境界",
-        subtitle: "一个适合手机浏览器操作的互动可视化，用来表现类似东方弹幕里那种由离散粒子形成波纹错觉的感觉。",
+        title: "境符「波与粒的境界」",
         controlsTitle: "控制面板",
-        controlsSubtitle: "实时调整参数并观察图样变化",
         hideControls: "收起面板",
         showControls: "展开面板",
         pause: "暂停",
@@ -499,22 +421,15 @@
         reset: "重置",
         dreamy: "梦幻",
         calm: "平缓",
-        hint: "拖动下面的滑条，看看离散粒子怎样慢慢长成像波一样的图案。",
-        ways: "分支数",
-        alpha: "alpha",
+        ways: "分流",
+        alpha: "旋转速率",
         emit: "发射间隔",
         bulletSpeed: "子弹速度",
         spawn: "发射半径",
-        lifetime: "存活时间",
-        statsFrame: "帧数",
-        statsBullets: "弹数",
-        waysTip: "同时向外发射的臂数或流数。数值越大，整体看起来通常越饱满。",
-        alphaTip: "控制发射角度加速扭转的强度。越低越平缓、越松，越高越容易快速扭起来。",
-        emitTip: "每隔多少帧发射一次。数值越低，图案越密。",
-        bulletSpeedTip: "每颗子弹向外移动的速度。数值越低，运动更柔和，也更容易观察。",
-        spawnTip: "中心附近那一圈发射环的半径。",
-        lifetimeTip: "子弹会在画面上保留多久，超过这个时间就消失。",
-        langButton: "EN"
+        lifetime: "存活帧",
+        statsBullets: "弹幕数",
+        langButton: "EN",
+        playButton: "游玩"
       }
     };
 
@@ -522,13 +437,11 @@
     const ctx = canvas.getContext("2d");
 
     const titleText = document.getElementById("titleText");
-    const subtitleText = document.getElementById("subtitleText");
     const controlsTitle = document.getElementById("controlsTitle");
-    const controlsSubtitle = document.getElementById("controlsSubtitle");
     const statsEl = document.getElementById("stats");
-    const hintText = document.getElementById("hintText");
 
     const langBtn = document.getElementById("langBtn");
+    const playBtn = document.getElementById("playBtn");
     const pauseBtn = document.getElementById("pauseBtn");
     const resetBtn = document.getElementById("resetBtn");
     const dreamyBtn = document.getElementById("dreamyBtn");
@@ -563,15 +476,6 @@
       lifetime: document.getElementById("lifetimeLabel"),
     };
 
-    const tips = {
-      ways: document.getElementById("waysTip"),
-      alpha: document.getElementById("alphaTip"),
-      emitEvery: document.getElementById("emitTip"),
-      bulletSpeed: document.getElementById("bulletSpeedTip"),
-      spawnRadius: document.getElementById("spawnTip"),
-      lifetime: document.getElementById("lifetimeTip"),
-    };
-
     const ALPHA_MIN = 0.0000002;
     const ALPHA_MAX = 0.0045000;
 
@@ -585,6 +489,17 @@
       height: 0,
       cx: 0,
       cy: 0,
+      playMode: false,
+      player: {
+        x: 0,
+        y: 0,
+        radius: 7,
+        active: false,
+        invulnerableUntil: 0,
+        hiddenUntil: 0,
+        flashFrames: 0,
+        rippleFrames: 0,
+      },
       controlsCollapsed: false,
       lang: "en"
     };
@@ -632,16 +547,14 @@
 
     function applyLanguage() {
       titleText.textContent = t("title");
-      subtitleText.textContent = t("subtitle");
       controlsTitle.textContent = t("controlsTitle");
-      controlsSubtitle.textContent = t("controlsSubtitle");
       pauseBtn.textContent = state.paused ? t("resume") : t("pause");
       resetBtn.textContent = t("reset");
       dreamyBtn.textContent = t("dreamy");
       calmBtn.textContent = t("calm");
-      hintText.textContent = t("hint");
       toggleControlsBtn.textContent = state.controlsCollapsed ? t("showControls") : t("hideControls");
       langBtn.textContent = t("langButton");
+      playBtn.textContent = t("playButton");
 
       labels.ways.textContent = t("ways");
       labels.alpha.textContent = t("alpha");
@@ -649,13 +562,6 @@
       labels.bulletSpeed.textContent = t("bulletSpeed");
       labels.spawnRadius.textContent = t("spawn");
       labels.lifetime.textContent = t("lifetime");
-
-      tips.ways.textContent = t("waysTip");
-      tips.alpha.textContent = t("alphaTip");
-      tips.emitEvery.textContent = t("emitTip");
-      tips.bulletSpeed.textContent = t("bulletSpeedTip");
-      tips.spawnRadius.textContent = t("spawnTip");
-      tips.lifetime.textContent = t("lifetimeTip");
     }
 
     function resize() {
@@ -674,6 +580,8 @@
       state.height = h;
       state.cx = w * 0.5;
       state.cy = h * 0.44;
+      state.player.x = Math.max(0, Math.min(state.width, state.player.x));
+      state.player.y = Math.max(0, Math.min(state.height, state.player.y));
     }
 
     function resetPattern() {
@@ -686,6 +594,88 @@
       state.controlsCollapsed = collapsed;
       controlsPanel.classList.toggle("collapsed", collapsed);
       toggleControlsBtn.textContent = collapsed ? t("showControls") : t("hideControls");
+    }
+
+    function setPlayMode(enabled) {
+      state.playMode = enabled;
+      playBtn.classList.toggle("active", enabled);
+      playBtn.setAttribute("aria-pressed", enabled ? "true" : "false");
+
+      if (!enabled) {
+        state.player.active = false;
+        state.player.flashFrames = 0;
+        state.player.rippleFrames = 0;
+        return;
+      }
+
+      state.player.x = state.width * 0.5;
+      state.player.y = state.height * 0.72;
+      state.player.active = true;
+      state.player.invulnerableUntil = performance.now() + 500;
+      state.player.hiddenUntil = 0;
+      state.player.flashFrames = 0;
+      state.player.rippleFrames = 0;
+    }
+
+    function updatePlayerFromPointer(clientX, clientY) {
+      const rect = canvas.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      state.player.x = Math.max(0, Math.min(state.width, x));
+      state.player.y = Math.max(0, Math.min(state.height, y));
+      state.player.active = true;
+    }
+
+    function onPlayPointerMove(e) {
+      if (!state.playMode) return;
+      updatePlayerFromPointer(e.clientX, e.clientY);
+      if (e.pointerType === "touch") {
+        e.preventDefault();
+      }
+    }
+
+    function onPlayPointerLeave(e) {
+      if (!state.playMode) return;
+      if (e.pointerType === "mouse") {
+        state.player.active = false;
+      }
+    }
+
+    function onPlayPointerEnd(e) {
+      if (!state.playMode) return;
+      if (e.pointerType !== "mouse") {
+        state.player.active = false;
+      }
+    }
+
+    function triggerPlayerHit() {
+      const now = performance.now();
+      state.player.flashFrames = 10;
+      state.player.rippleFrames = 16;
+      state.player.hiddenUntil = now + 220;
+      state.player.invulnerableUntil = now + 900;
+    }
+
+    function updatePlayModeState() {
+      if (!state.playMode) return;
+
+      if (state.player.flashFrames > 0) state.player.flashFrames -= 1;
+      if (state.player.rippleFrames > 0) state.player.rippleFrames -= 1;
+
+      if (!state.player.active) return;
+      if (performance.now() < state.player.invulnerableUntil) return;
+
+      const hitRadius = state.player.radius + 2.8;
+      const hitRadiusSq = hitRadius * hitRadius;
+
+      for (const b of state.bullets) {
+        const dx = b.x - state.player.x;
+        const dy = b.y - state.player.y;
+        if (dx * dx + dy * dy <= hitRadiusSq) {
+          triggerPlayerHit();
+          return;
+        }
+      }
     }
 
     function dreamyPreset() {
@@ -822,24 +812,70 @@
       ctx.restore();
     }
 
+    function drawPlayer() {
+      if (!state.playMode || !state.player.active) return;
+
+      const now = performance.now();
+      if (now < state.player.hiddenUntil) return;
+
+      const invulnerable = now < state.player.invulnerableUntil;
+      if (invulnerable && Math.floor(now / 80) % 2 === 0) return;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(state.player.x, state.player.y, state.player.radius + 2, 0, Math.PI * 2);
+      ctx.strokeStyle = invulnerable ? "rgba(162, 224, 255, 0.88)" : "rgba(255, 216, 245, 0.95)";
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(state.player.x, state.player.y, 2.3, 0, Math.PI * 2);
+      ctx.fillStyle = invulnerable ? "rgba(150, 224, 255, 0.96)" : "rgba(255, 196, 236, 0.96)";
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawPlayHitFeedback() {
+      if (!state.playMode) return;
+
+      if (state.player.rippleFrames > 0) {
+        const progress = 1 - state.player.rippleFrames / 16;
+        const radius = state.player.radius + 8 + progress * 28;
+        const alpha = 0.28 * (1 - progress);
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(state.player.x, state.player.y, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(255, 210, 245, ${alpha})`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      if (state.player.flashFrames > 0) {
+        const alpha = 0.16 * (state.player.flashFrames / 10);
+        ctx.save();
+        ctx.fillStyle = `rgba(255, 245, 255, ${alpha})`;
+        ctx.fillRect(0, 0, state.width, state.height);
+        ctx.restore();
+      }
+    }
+
     function render() {
       drawBackground();
       drawCenterGlow();
       drawSpawnRing();
       drawBullets();
+      drawPlayer();
+      drawPlayHitFeedback();
 
-      const p = params();
-      const omega = state.frame * p.alpha;
-      statsEl.textContent =
-        `${t("statsFrame")} ${state.frame}\n` +
-        `${t("statsBullets")} ${state.bullets.length}\n` +
-        `ω ${omega.toFixed(3)}`;
+      statsEl.textContent = `${t("statsBullets")} ${state.bullets.length}`;
     }
 
     function loop() {
       if (!state.paused) {
         step();
       }
+      updatePlayModeState();
       render();
       requestAnimationFrame(loop);
     }
@@ -848,6 +884,10 @@
       state.lang = state.lang === "en" ? "zh" : "en";
       document.documentElement.lang = state.lang === "en" ? "en" : "zh-CN";
       applyLanguage();
+    });
+
+    playBtn.addEventListener("click", () => {
+      setPlayMode(!state.playMode);
     });
 
     pauseBtn.addEventListener("click", () => {
@@ -886,18 +926,16 @@
       }
     });
 
-    document.querySelectorAll(".info-btn").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        const wrap = btn.parentElement;
-        const active = wrap.matches(":focus-within");
-        if (!active) btn.focus();
-      });
-    });
+    canvas.addEventListener("pointerdown", onPlayPointerMove, { passive: false });
+    canvas.addEventListener("pointermove", onPlayPointerMove, { passive: false });
+    canvas.addEventListener("pointerleave", onPlayPointerLeave);
+    canvas.addEventListener("pointerup", onPlayPointerEnd);
+    canvas.addEventListener("pointercancel", onPlayPointerEnd);
 
     syncLabels();
     resize();
     calmPreset();
+    setPlayMode(false);
     applyLanguage();
 
     if (window.innerWidth < 900 || window.innerHeight < 820) {

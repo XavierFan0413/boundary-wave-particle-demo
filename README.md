@@ -1,17 +1,17 @@
 # Boundary Between Wave and Particle Demo
 
-A small visualization project inspired by Touhou Project spell card design, especially the idea of creating a wave-like visual effect from discrete particles.
+A small visualization project inspired by Touhou Project spell card design, focused on how a wave-like visual effect can emerge from discrete particles.
 
-This repository now includes two versions:
+This repository currently includes two versions:
 
 - a Python desktop demo for local experimentation
-- a mobile-friendly web demo for easy sharing
+- a mobile-friendly web demo for easy sharing and interactive play
 
-## Versions
+## Included Versions
 
 ### 1. Python Desktop Demo
 
-The Python version is useful for local testing and interactive parameter exploration with a desktop GUI.
+The Python version is useful for local testing and parameter exploration with a desktop GUI.
 
 File:
 
@@ -37,9 +37,9 @@ Run:
 python boundary_wave_particle_demo.py
 ```
 
-### 2. Mobile-Friendly Web Demo
+### 2. Web Demo
 
-The web version is designed for quick access on phone or desktop browser.
+The web version is designed for phone and desktop browsers, with a cleaner interface for sharing and casual interaction.
 
 File:
 
@@ -47,30 +47,39 @@ File:
 index.html
 ```
 
-You can open it locally in a browser, or publish it with GitHub Pages.
+If GitHub Pages is enabled for this repository, the web demo can be opened directly in a browser without installing anything.
 
-## Web Demo Controls
+## Web Demo Features
 
-Buttons:
+- bilingual interface with English and Chinese toggle
+- collapsible mobile-friendly control panel
+- real-time parameter adjustment
+- presets for different visual moods
+- optional play mode with cursor or touch-based collision
+- lightweight single-file implementation with no external dependencies
 
-- Pause
-- Reset
-- Dreamy
+## Main Web Controls
 
-Sliders:
+- language toggle: `EN` / `中`
+- play mode toggle
+- pause
+- reset
+- presets such as dreamy and calm
+
+Adjustable parameters include:
 
 - ways
 - alpha
-- emit
-- speed
-- spawn
+- emit interval
+- bullet speed
+- spawn radius
 - lifetime
 
 ## What This Demonstrates
 
-This project explores how a pattern made entirely of discrete particles can appear wave-like when emitted with a changing angular phase.
+This project explores how a continuous-looking wave pattern can be produced entirely from discrete moving particles.
 
-Even though the system only contains individual particles, the overall structure can visually resemble a continuous wavefront.
+By changing the emission angle over time, the particles can form structures that visually resemble smooth rotating wavefronts, even though the system itself remains fully particle-based.
 
 ## Notes
 
