@@ -352,7 +352,7 @@
               </span>
               <span class="value" id="emitVal"></span>
             </label>
-            <input id="emitEvery" type="range" min="1" max="8" step="1" value="2">
+            <input id="emitEvery" type="range" min="1" max="20" step="1" value="2">
           </div>
 
           <div class="control">
@@ -382,7 +382,7 @@
               </span>
               <span class="value" id="lifetimeVal"></span>
             </label>
-            <input id="lifetime" type="range" min="80" max="420" step="5" value="220">
+            <input id="lifetime" type="range" min="80" max="1000" step="10" value="300">
           </div>
         </div>
       </div>
@@ -680,11 +680,11 @@
 
     function dreamyPreset() {
       controls.ways.value = "8";
-      controls.alpha.value = String(sliderFromAlpha(0.0032));
-      controls.emitEvery.value = "1";
+      controls.alpha.value = String(sliderFromAlpha(0.00032));
+      controls.emitEvery.value = "4";
       controls.bulletSpeed.value = "0.70";
       controls.spawnRadius.value = "28";
-      controls.lifetime.value = "260";
+      controls.lifetime.value = "1000";
       syncLabels();
       resetPattern();
     }
@@ -692,10 +692,10 @@
     function calmPreset() {
       controls.ways.value = "5";
       controls.alpha.value = String(sliderFromAlpha(0.000030));
-      controls.emitEvery.value = "2";
-      controls.bulletSpeed.value = "0.38";
+      controls.emitEvery.value = "10";
+      controls.bulletSpeed.value = "0.60";
       controls.spawnRadius.value = "24";
-      controls.lifetime.value = "240";
+      controls.lifetime.value = "1000";
       syncLabels();
       resetPattern();
     }
