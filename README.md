@@ -1,23 +1,63 @@
-# Boundary Between Wave and Particle Demo
+# Boundary Between Wave and Particle
 
-A small visualization project inspired by Touhou Project spell card design, focused on how a wave-like visual effect can emerge from discrete particles.
+Compact demo/research project showing how a wave-like visual structure can emerge from discrete particles.
 
-This repository currently includes two versions:
+This repository contains two implementations of the same conceptual simulation:
 
-- a Python desktop demo for local experimentation
-- a mobile-friendly web demo for easy sharing and interactive play
+- Python desktop demo (local exploration)
+- Web demo (browser/mobile sharing)
 
-## Included Versions
+They are not a shared runtime codebase. They are conceptually aligned implementations.
 
-### 1. Python Desktop Demo
+## Concept Source Of Truth
 
-The Python version is useful for local testing and parameter exploration with a desktop GUI.
+The simulation model and alignment contract live in:
 
-File:
+- `docs/model.md`
+
+Use that document as the reference when changing either implementation.
+
+## Repository Layout
 
 ```text
-boundary_wave_particle_demo.py
+.
+├─ docs/
+│  └─ model.md
+├─ python/
+│  ├─ __init__.py
+│  └─ boundary_wave_particle_demo.py
+├─ web/
+│  └─ index.html
+├─ boundary_wave_particle_demo.py   # compatibility entry point
+├─ index.html                       # redirects to web/index.html
+├─ requirements.txt
+└─ LICENSE
 ```
+
+## Implementation Roles
+
+### Python Demo
+
+- Purpose: desktop-oriented parameter exploration and quick local experimentation.
+- Canonical file: `python/boundary_wave_particle_demo.py`
+- Compatibility entry point: `boundary_wave_particle_demo.py`
+
+### Web Demo
+
+- Purpose: easy sharing, mobile-friendly interaction, and lightweight in-browser usage.
+- Canonical file: `web/index.html`
+- Root `index.html` redirects to `web/index.html`.
+
+## Parity Expectations
+
+- Expected: conceptual parity (same simulation idea and core update rules).
+- Not expected: exact frame-by-frame parity or identical UI/visual effects.
+
+The web implementation includes extra interaction features (for example play mode collision feedback) that are intentionally implementation-specific.
+
+## Run
+
+### Python
 
 Requirements:
 
@@ -31,60 +71,29 @@ Install:
 pip install -r requirements.txt
 ```
 
-Run:
+Run (either command):
 
 ```bash
 python boundary_wave_particle_demo.py
 ```
 
-### 2. Web Demo
-
-The web version is designed for phone and desktop browsers, with a cleaner interface for sharing and casual interaction.
-
-File:
-
-```text
-index.html
+```bash
+python python/boundary_wave_particle_demo.py
 ```
 
-If GitHub Pages is enabled for this repository, the web demo can be opened directly in a browser without installing anything.
+### Web
 
-## Web Demo Features
+Open either file in a browser:
 
-- bilingual interface with English and Chinese toggle
-- collapsible mobile-friendly control panel
-- real-time parameter adjustment
-- presets for different visual moods
-- optional play mode with cursor or touch-based collision
-- lightweight single-file implementation with no external dependencies
+- `index.html` (redirects)
+- `web/index.html` (direct)
 
-## Main Web Controls
-
-- language toggle: `EN` / `中`
-- play mode toggle
-- pause
-- reset
-- presets such as dreamy and calm
-
-Adjustable parameters include:
-
-- ways
-- alpha
-- emit interval
-- bullet speed
-- spawn radius
-- lifetime
-
-## What This Demonstrates
-
-This project explores how a continuous-looking wave pattern can be produced entirely from discrete moving particles.
-
-By changing the emission angle over time, the particles can form structures that visually resemble smooth rotating wavefronts, even though the system itself remains fully particle-based.
+If GitHub Pages is enabled, serve repository root as usual.
 
 ## Notes
 
-This is a conceptual reconstruction for learning and visualization. It is not a source-level recreation of the original Touhou implementation.
+This is a conceptual reconstruction for learning and visualization, not a source-level recreation of the original Touhou implementation.
 
 ## License
 
-This repository's source code is licensed under the MIT License.
+MIT License.
