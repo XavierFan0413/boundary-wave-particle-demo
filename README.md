@@ -1,98 +1,109 @@
 # Boundary Between Wave and Particle
 
-Compact demo/research project showing how a wave-like visual structure can emerge from discrete particles.
+An interactive particle visualization showing how a smooth wave-like pattern can emerge from fully discrete bullet particles.
 
-This repository contains two implementations of the same conceptual simulation:
+[![Live Demo](https://img.shields.io/badge/live-demo-brightgreen?logo=githubpages)](https://xavierfan0413.github.io/boundary-wave-particle-demo/web/index.html)
+![Status](https://img.shields.io/badge/status-v1%20compact%20demo-0969da)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-- Python desktop demo (local exploration)
-- Web demo (browser/mobile sharing)
+Live demo: https://xavierfan0413.github.io/boundary-wave-particle-demo/web/index.html
 
-They are not a shared runtime codebase. They are conceptually aligned implementations.
+![Wave-particle demo preview](docs/assets/WP.gif)
 
-## Concept Source Of Truth
+## What This Project Is
 
-The simulation model and alignment contract live in:
+This is a compact showcase project with two implementations of the same simulation concept:
 
-- `docs/model.md`
+- Python desktop demo for local exploration
+- Browser demo for sharing and interactive play
 
-Use that document as the reference when changing either implementation.
+The implementations do not share runtime code. They share a documented simulation model.
 
-## Repository Layout
+## Why This Is Interesting
+
+- It demonstrates emergence: continuous-looking structure from simple discrete agents.
+- It stays minimal: a small parameterized system can still produce rich visual behavior.
+- It is interactive: you can adjust parameters in real time and immediately see pattern changes.
+
+## Technical Highlights
+
+- Two implementations of one concept: `python/` and `web/`.
+- Shared model specification in [`docs/model.md`](docs/model.md).
+- Real-time parameter controls (`ways`, `alpha`, `emit cadence`, speed, spawn radius, lifetime).
+- Phase-driven radial emission with simple deterministic update rules.
+- Optional lightweight play-mode interaction in the web demo.
+
+## How It Works (High Level)
+
+1. Keep simulation state: frame, phase, and active bullets.
+2. On each frame, advance phase with `phase += frame * alpha`.
+3. Every `emit_every` frames, emit `ways` bullets around a spawn ring.
+4. Move bullets with constant velocity, age them, and cull by lifetime and bounds.
+5. Render positions with implementation-specific visuals (Python scatter vs web canvas effects).
+
+Full conceptual contract: [`docs/model.md`](docs/model.md).
+
+## Project Structure
 
 ```text
 .
 ├─ docs/
+│  ├─ assets/
+│  │  └─ WP.gif
 │  └─ model.md
 ├─ python/
 │  ├─ __init__.py
 │  └─ boundary_wave_particle_demo.py
 ├─ web/
 │  └─ index.html
-├─ boundary_wave_particle_demo.py   # compatibility entry point
-├─ index.html                       # redirects to web/index.html
+├─ boundary_wave_particle_demo.py   # root compatibility entry point
+├─ index.html                       # root redirect to web/index.html
 ├─ requirements.txt
 └─ LICENSE
 ```
 
-## Implementation Roles
+## Run Locally
 
-### Python Demo
-
-- Purpose: desktop-oriented parameter exploration and quick local experimentation.
-- Canonical file: `python/boundary_wave_particle_demo.py`
-- Compatibility entry point: `boundary_wave_particle_demo.py`
-
-### Web Demo
-
-- Purpose: easy sharing, mobile-friendly interaction, and lightweight in-browser usage.
-- Canonical file: `web/index.html`
-- Root `index.html` redirects to `web/index.html`.
-
-## Parity Expectations
-
-- Expected: conceptual parity (same simulation idea and core update rules).
-- Not expected: exact frame-by-frame parity or identical UI/visual effects.
-
-The web implementation includes extra interaction features (for example play mode collision feedback) that are intentionally implementation-specific.
-
-## Run
-
-### Python
-
-Requirements:
-
-- Python 3
-- matplotlib
-- numpy
-
-Install:
+### Python demo
 
 ```bash
 pip install -r requirements.txt
-```
-
-Run (either command):
-
-```bash
 python boundary_wave_particle_demo.py
 ```
+
+You can also run the canonical path directly:
 
 ```bash
 python python/boundary_wave_particle_demo.py
 ```
 
-### Web
+### Web demo
 
-Open either file in a browser:
+Open directly:
 
 - `index.html` (redirects)
-- `web/index.html` (direct)
+- `web/index.html` (direct entry)
 
-If GitHub Pages is enabled, serve repository root as usual.
+Or serve locally:
 
-## Notes
+```bash
+python -m http.server 8000
+```
 
-This is a conceptual reconstruction for learning and visualization, not a source-level recreation of the original Touhou implementation.
+Then open `http://localhost:8000/web/index.html`.
+
+## Model Alignment And Parity
+
+- Expected: conceptual parity across Python and Web.
+- Not expected: exact frame-by-frame visual parity.
+
+Python and Web use different rendering/UI systems and parameter ranges, but follow the same core simulation model.
+
+## Inspiration And Scope
+
+Inspired by Touhou-style bullet pattern aesthetics, but presented primarily as a computational visualization study.
+
+This project is a conceptual reconstruction for learning and demo purposes, not a source-level recreation of any original game implementation.
 
 ## License
 

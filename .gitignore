@@ -7,3 +7,6 @@ venv/
 .env
 *.png
 *.gif
+!docs/assets/
+!docs/assets/*.png
+!docs/assets/*.gif
