@@ -231,6 +231,12 @@
       transform: scale(0.985);
     }
 
+    button:focus-visible,
+    input[type="range"]:focus-visible {
+      outline: 2px solid #f6d9ff;
+      outline-offset: -2px;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -367,7 +373,7 @@
 
       <div class="right-col">
         <div class="top-actions">
-          <button class="lang-btn" id="langBtn">中</button>
+          <button class="lang-btn" id="langBtn" aria-label="中 — Switch to Chinese">中</button>
           <button class="play-btn" id="playBtn" type="button">Play</button>
         </div>
         <div class="stats" id="stats"></div>
@@ -379,10 +385,10 @@
         <div class="controls-head-left">
           <div class="controls-title" id="controlsTitle">Controls</div>
         </div>
-        <button class="toggle-btn" id="toggleControlsBtn">Hide Controls</button>
+        <button class="toggle-btn" id="toggleControlsBtn" aria-controls="controlsContent" aria-expanded="true">Hide Controls</button>
       </div>
 
-      <div class="controls-content">
+      <div class="controls-content" id="controlsContent">
         <div class="button-row">
           <button id="pauseBtn">Pause</button>
           <button id="resetBtn">Reset</button>
@@ -392,61 +398,61 @@
 
         <div class="grid">
           <div class="control">
-            <label>
+            <label for="ways">
               <span class="label-left">
                 <span id="waysLabel">ways</span>
               </span>
-              <span class="value" id="waysVal"></span>
+              <span class="value" id="waysVal" aria-hidden="true"></span>
             </label>
             <input id="ways" type="range" min="1" max="12" step="1" value="5">
           </div>
 
           <div class="control">
-            <label>
+            <label for="alpha">
               <span class="label-left">
                 <span id="alphaLabel">alpha</span>
               </span>
-              <span class="value" id="alphaVal"></span>
+              <span class="value" id="alphaVal" aria-hidden="true"></span>
             </label>
             <input id="alpha" type="range" min="0" max="1000" step="1" value="500">
           </div>
 
           <div class="control">
-            <label>
+            <label for="emitEvery">
               <span class="label-left">
                 <span id="emitLabel">emit</span>
               </span>
-              <span class="value" id="emitVal"></span>
+              <span class="value" id="emitVal" aria-hidden="true"></span>
             </label>
             <input id="emitEvery" type="range" min="1" max="20" step="1" value="2">
           </div>
 
           <div class="control">
-            <label>
+            <label for="bulletSpeed">
               <span class="label-left">
                 <span id="bulletSpeedLabel">bullet speed</span>
               </span>
-              <span class="value" id="bulletSpeedVal"></span>
+              <span class="value" id="bulletSpeedVal" aria-hidden="true"></span>
             </label>
             <input id="bulletSpeed" type="range" min="0.05" max="2.50" step="0.01" value="0.75">
           </div>
 
           <div class="control">
-            <label>
+            <label for="spawnRadius">
               <span class="label-left">
                 <span id="spawnLabel">spawn</span>
               </span>
-              <span class="value" id="spawnVal"></span>
+              <span class="value" id="spawnVal" aria-hidden="true"></span>
             </label>
             <input id="spawnRadius" type="range" min="10" max="80" step="1" value="24">
           </div>
 
           <div class="control">
-            <label>
+            <label for="lifetime">
               <span class="label-left">
                 <span id="lifetimeLabel">lifetime</span>
               </span>
-              <span class="value" id="lifetimeVal"></span>
+              <span class="value" id="lifetimeVal" aria-hidden="true"></span>
             </label>
             <input id="lifetime" type="range" min="80" max="1000" step="10" value="300">
           </div>
@@ -469,12 +475,13 @@
         calm: "Calm",
         ways: "streams",
         alpha: "twist",
-        emit: "emit gap",
-        bulletSpeed: "speed",
-        spawn: "ring size",
-        lifetime: "lifetime",
+        emit: "emit gap (frames)",
+        bulletSpeed: "particle speed",
+        spawn: "spawn radius",
+        lifetime: "lifetime (frames)",
         statsBullets: "bullets",
         langButton: "中",
+        langButtonLabel: "中 — Switch to Chinese",
         playButton: "Play"
       },
       zh: {
@@ -495,6 +502,7 @@
         lifetime: "存活帧",
         statsBullets: "弹幕数",
         langButton: "EN",
+        langButtonLabel: "EN — 切换到英文",
         playButton: "游玩"
       }
     };
@@ -512,6 +520,7 @@
     const resetBtn = document.getElementById("resetBtn");
     const dreamyBtn = document.getElementById("dreamyBtn");
     const calmBtn = document.getElementById("calmBtn");
+    const controlsContent = document.getElementById("controlsContent");
     const controlsPanel = document.getElementById("controlsPanel");
     const toggleControlsBtn = document.getElementById("toggleControlsBtn");
 
@@ -605,6 +614,7 @@
       const p = params();
       values.ways.textContent = p.ways;
       values.alpha.textContent = formatAlpha(p.alpha);
+      controls.alpha.setAttribute("aria-valuetext", values.alpha.textContent);
       values.emitEvery.textContent = p.emitEvery;
       values.bulletSpeed.textContent = p.bulletSpeed.toFixed(2);
       values.spawnRadius.textContent = p.spawnRadius.toFixed(0);
@@ -620,6 +630,7 @@
       calmBtn.textContent = t("calm");
       toggleControlsBtn.textContent = state.controlsCollapsed ? t("showControls") : t("hideControls");
       langBtn.textContent = t("langButton");
+      langBtn.setAttribute("aria-label", t("langButtonLabel"));
       playBtn.textContent = t("playButton");
 
       labels.ways.textContent = t("ways");
@@ -657,8 +668,13 @@
     }
 
     function setControlsCollapsed(collapsed) {
+      if (collapsed && controlsContent.contains(document.activeElement)) {
+        toggleControlsBtn.focus();
+      }
       state.controlsCollapsed = collapsed;
       controlsPanel.classList.toggle("collapsed", collapsed);
+      controlsContent.inert = collapsed;
+      toggleControlsBtn.setAttribute("aria-expanded", String(!collapsed));
       toggleControlsBtn.textContent = collapsed ? t("showControls") : t("hideControls");
     }
 

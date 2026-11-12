@@ -2,11 +2,13 @@
 
 An interactive particle visualization showing how a smooth wave-like pattern can emerge from fully discrete bullet particles.
 
-[![Live Demo](https://img.shields.io/badge/live-demo-brightgreen?logo=githubpages)](https://xavierfan0413.github.io/boundary-wave-particle-demo/web/index.html)
-![Status](https://img.shields.io/badge/status-v1%20compact%20demo-0969da)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+**[Launch the browser demo](https://xavierfan0413.github.io/boundary-wave-particle-demo/web/index.html)**
 
-Live demo: https://xavierfan0413.github.io/boundary-wave-particle-demo/web/index.html
+1. **Change the number of streams.** If you see **Show Controls**, select it. Press `Tab` until **streams** is focused, then press `→` to add a stream and watch the pattern change.
+2. Try **Calm** and **Dreamy** for different patterns, or use **Pause** to inspect a frame.
+3. Select **Play**, then move the mouse or drag on the canvas to try the optional interaction.
+
+[Run locally](#run-locally) · [Simulation model](docs/model.md)
 
 ![Wave-particle demo preview](docs/assets/WP.gif)
 
